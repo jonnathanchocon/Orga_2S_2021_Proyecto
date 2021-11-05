@@ -1,3 +1,4 @@
 # Ignorar Estos archivos
 *.pdsbak
 *.workspace
+venv
