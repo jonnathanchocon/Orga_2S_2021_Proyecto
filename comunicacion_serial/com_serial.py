@@ -1,10 +1,9 @@
 import tkinter as tk
 import tkinter.filedialog
 from serial import Serial
-import time
+# import time
 
 serial_arduino = Serial('COM2', 9600)
-time.sleep(1)
 
 
 class VentanaPrincipal(tk.Frame):
@@ -39,18 +38,16 @@ class VentanaPrincipal(tk.Frame):
         self.etiqueta_recibido.grid(row="4", column="0")
 
     def enviar(self):
-        # self.etiqueta_texto = tkinter.Label(self)
-        # self.etiqueta_texto["text"] = self.campo_nombre.get('text')
-        # self.texto1.set("hola")
         self.etiqueta_texto["text"] = self.campo_entrada.get()
-        if self.campo_entrada.get() == 'h':
+        if not self.campo_entrada.get() == '':
+            texto_a_enviar = self.campo_entrada.get()
+            print(type(texto_a_enviar))
             try:
-                serial_arduino.write(b'h')
-            except Exception as ex:
-                print(ex.args)
-        elif self.campo_entrada.get() == 'l':
-            try:
-                print(serial_arduino.write(b'l'))
+                recibido = serial_arduino.write(bytes(texto_a_enviar, 'utf-8'))
+                self.etiqueta_recibido["text"] = str(recibido)
+                print(recibido)
+                print(type(bytes(texto_a_enviar, 'utf-8')))
+
             except Exception as ex:
                 print(ex.args)
         else:
